@@ -23,6 +23,7 @@ export default defineComponent({
   data(){
     return {
       message: '1111',
+      color: 'yellow',
       book: {
         title: 'ss',
         author: 'ss',
@@ -58,7 +59,7 @@ export default defineComponent({
 .home{
   width: 100px;
   height: 100px;
-  background: red;
+  background: v-bind(color);
   margin: 0 auto;
   position: relative;
 }
