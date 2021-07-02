@@ -1,17 +1,9 @@
 <template lang="pug">
 .home
-  img(
-    alt="Vue logo" 
-    src="../assets/logo.png"
-  ) 
-  HelloWorld(
-    msg="Welcome to Your Vue.js + TypeScript App"
-  )
-  b {{message}}
+  HelloWorld
 </template>
 
 <script lang="ts">
-import { Options, Vue } from "vue-class-component";
 import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 import { defineComponent } from 'vue'
 
@@ -22,6 +14,12 @@ interface Book {
 }
 
 export default defineComponent({
+  name: 'home',
+
+  components: {
+    HelloWorld
+  },
+
   data(){
     return {
       message: '1111',
@@ -55,3 +53,13 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss">
+.home{
+  width: 100px;
+  height: 100px;
+  background: red;
+  margin: 0 auto;
+  position: relative;
+}
+</style>
