@@ -1,4 +1,9 @@
 <template lang="pug">
+span {{counter}}
+el-button(
+  @click="setCounter"
+) test {{msg}}
+
 el-button(@click="modalOpen = true") 打开
 
 teleport(to="body")
@@ -9,11 +14,47 @@ teleport(to="body")
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent, onMounted, ref, toRefs, watch } from 'vue'
 
 export default defineComponent({
-  props:{
-    msg: String
+  props: {
+    msg: {
+      type: String,
+      default: ''
+    }
+  },
+  setup(props, context){
+    console.log(props)
+    const { msg } = toRefs(props)
+    const counter = ref(0);
+    const setCounter = function(){
+      counter.value++
+    }
+
+    onMounted(() => {
+      console.log('onMouted', props)
+    })
+    
+    watch(counter, (newValue, oldValue) => {
+      console.log(newValue, oldValue)
+    })
+
+    watch(msg, (newValue, oldValue) => {
+      console.log(newValue, oldValue)
+    })
+
+    const twiceCounter = computed(() => counter.value * 2)
+
+    return{
+      twiceCounter,
+      msg,
+      counter,
+      setCounter
+    }
+  },
+
+  mounted(){
+    console.log(this)
   },
 
   data(){

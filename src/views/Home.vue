@@ -1,6 +1,11 @@
 <template lang="pug">
 .home
-  HelloWorld
+  HelloWorld(
+    :msg="message"
+  )
+  el-button(
+    @click="message = 'sfafdasf'"
+  ) change-msg
 </template>
 
 <script lang="ts">
