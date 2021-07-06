@@ -15,6 +15,7 @@ teleport(to="body")
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, toRefs, watch } from 'vue'
+import { counters } from '../composables/counters';
 
 export default defineComponent({
   props: {
@@ -26,10 +27,12 @@ export default defineComponent({
   setup(props, context){
     console.log(props)
     const { msg } = toRefs(props)
-    const counter = ref(0);
-    const setCounter = function(){
-      counter.value++
-    }
+    // const counter = ref(0);
+    // const setCounter = function(){
+    //   counter.value++
+    // }
+
+    const { counter, setCounter } = counters()
 
     onMounted(() => {
       console.log('onMouted', props)
