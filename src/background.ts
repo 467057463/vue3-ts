@@ -1,10 +1,13 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, globalShortcut } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+import path from 'path';
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+console.log(__static, __dirname)
+global.__dirname = __dirname;
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
@@ -16,12 +19,13 @@ async function createWindow() {
     width: 800,
     height: 600,
     webPreferences: {
+      webviewTag: true,
       
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: (process.env
           .ELECTRON_NODE_INTEGRATION as unknown) as boolean,
-      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION
+      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
     }
   })
 
@@ -34,6 +38,18 @@ async function createWindow() {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
+  win.setThumbarButtons([{
+    tooltip: 'button1',
+    icon: path.join(__static, '/resources', 'test.png'),
+    click () { console.log('button1 clicked') }
+  },{
+    tooltip: 'button1',
+    icon: path.join(__static, '/resources', 'test.png'),
+    click () { console.log('button1 clicked') }
+  }])
+  win.setOverlayIcon(path.join(__static, '/resources', 'test.png'), 'Description for overlay')
+  // win.once('focus', () => win.flashFrame(false))
+  win.flashFrame(true)
 }
 
 // Quit when all windows are closed.
@@ -63,6 +79,9 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
+  globalShortcut.register('Alt+CommandOrControl+I', () => {
+    console.log('test globalShortcut')
+  })
   createWindow()
 })
 
@@ -80,3 +99,16 @@ if (isDevelopment) {
     })
   }
 }
+
+
+app.setUserTasks([
+  {
+    program: process.execPath,
+    arguments: '--new-window',
+    iconPath: process.execPath,
+    iconIndex: 0,
+    title: 'New Window',
+    description: 'Create a new window'
+  }
+])
+

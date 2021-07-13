@@ -2,6 +2,7 @@
 #app
   router-link(to="/") Home
   router-link(to="/about") about
+  router-link(to="/view") view
 router-view
 </template>
 
